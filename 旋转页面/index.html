@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+
+    <!-- 所有英文翻译均来自DeepSeek All English translations are provided by DeepSeek. -->
+    <!-- 所有作者自己制作的SVG字体均以方形代替，请大家自行插入自己所需的SVG All authors create their own SVG fonts, which replace squares instead of. Please insert your own SVG into the required places. -->
+    
+    <link rel="stylesheet" href="base.css" /> <!-- 引入公共样式 Introduce common style -->
+    <link rel="stylesheet" href="style.css" /> <!-- 引入该HTML独有样式 Introduce this HTML-specific style. -->
+    <link rel="stylesheet" href="word_animation.css" /> <!-- 引入文字动画样式 Introduce text animation style. -->
+    
+    <svg width="0" height="0" style="position: absolute;"> <!-- 定义SVG霓虹光晕滤镜 Define SVG neon glow filter. -->
+        <filter id="neonglow-blue" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur" />
+            <feFlood flood-color="#62affc" result="color" />
+            <feComposite in2="blur" operator="in" resule="coloredBlur" />
+            <feMerge>
+                <femergeNode in="coloredBlur" />
+                <femergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <filter id="neonglow-pink" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur" />
+            <feFlood flood-color="#e1537b" result="color" />
+            <feComposite in2="blur" operator="in" resule="coloredBlur" />
+            <feMerge>
+                <femergeNode in="coloredBlur" />
+                <femergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <filter id="neonglow-green" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur" />
+            <feFlood flood-color="#75e761" result="color" />
+            <feComposite in2="blur" operator="in" resule="coloredBlur" />
+            <feMerge>
+                <femergeNode in="coloredBlur" />
+                <femergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </svg>
+</head>
+
+<body>
+    <nav> <!-- 打开网页操作提示栏 Open the web operation hint sidebar. -->
+        &lt; 上下滚动滚轮或点击下方按钮以切换展示页 &gt;
+    </nav>
+
+    <svg class="line1"> <!-- 上下两条运动的虚线 Two moving dotted lines above and below. -->
+        <line x1="0" y="0" x2="100vw" y2="0" />
+    </svg>
+    <svg class="line2">
+        <line x1="0" y="0" x2="100vw" y2="0" />
+    </svg>
+
+    <div class="bodys"> <!-- 定义用于装载文字和旋转体的大盒子 Create a container for loading text and 3D objects with rotation. -->
+        <div class="word"> <!-- 左边的SVG文字 Left SVG text.-->
+            <svg class="ge about_me" viewBox="0 0 150 150" style="display: block;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-blue)" />
+            </svg>
+            <svg class="ren about_me" viewBox="0 0 150 150" style="display: block;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-blue)" />
+            </svg>
+            <svg class="bi1 bili" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-pink)" />
+            </svg>
+            <svg class="li1 bili" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-pink)" />
+            </svg>
+            <svg class="ku kuan" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-green)" />
+            </svg>
+            <svg class="an kuan" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-green)" />
+            </svg>
+        </div>
+
+        <header> <!-- 旋转体 It is a rotating body. -->
+            <div class="bilibili right">1</div>
+            <div class="massage center">2</div>
+            <div class="kuan left">3</div>
+        </header>
+
+        <div class="word"> <!-- 右边的SVG文字 Right SVG text.-->
+            <svg class="jian about_me" viewBox="0 0 150 150" style="display: block;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-blue)" />
+            </svg>
+            <svg class="jie about_me" viewBox="0 0 150 150" style="display: block;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-blue)" />
+            </svg>
+            <svg class="bi2 bili" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-pink)" />
+            </svg>
+            <svg class="li2 bili" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-pink)" />
+            </svg>
+            <svg class="zhu kuan" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-green)" />
+            </svg>
+            <svg class="ye kuan" viewBox="0 0 150 150" style="display: none;">
+                <rect x="0" y="0" width="150" height="150" filter="url(#neonglow-green)" />
+            </svg>
+        </div>
+    </div>
+
+    <footer> <!-- 按钮功能大盒子 Button functionality box. -->
+        <div class="tag"> <!-- 按钮悬停提示 Button hover prompt. -->
+            <div class="div_kuan disappear">xxxx<div class="triangle1 disappear"></div></div>
+            <div class="div_massage disappear">yyyy<div class="triangle2 disappear"></div></div>
+            <div class="div_bilibili disappear">zzzz<div class="triangle3 disappear"></div></div>
+        </div>
+        <div class="bt"> <!-- 按钮主体 Button body. -->
+            <button class="bt_kuan"></button>
+            <button class="bt_massage bt_border"></button>
+            <button class="bt_bilibili"></button>
+        </div>
+    </footer>
+
+    <script src="js.js"></script> <!-- 引入外部JavaScript Include external JavaScript. -->
+</body>
+
+</html>

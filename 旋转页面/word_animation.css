@@ -1,0 +1,435 @@
+/* 文字通用样式 Generic text style. */
+div.word {
+    transform: translateY(-40px);
+    width: 270px;
+    height: 550px;
+}
+
+div.word svg {
+    height: 250px;
+    width: 250px;
+    fill-opacity: 0;
+    stroke-width: 2.3;
+    stroke-linecap: round;
+}
+
+/* 个人简介 Personal profile. */
+svg.about_me {
+    fill: #9ae2ff;
+    stroke: #9ae2ff;
+}
+
+svg.ge.about_me {
+    position: absolute;
+    top: 0;
+    left: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_ge 1.7s ease-in-out forwards;
+}
+
+@keyframes path_ge {
+    0%{
+        stroke: #1A3C5E;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #6699CC;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(-30px);
+    }
+
+    100% {
+        stroke: #9ae2ff;
+        stroke-dashoffset: 0;
+        fill-opacity: 1;
+        transform: translateX(-30px);
+    }
+}
+
+
+svg.ren.about_me {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_ren 1.7s ease-in-out forwards
+}
+
+@keyframes path_ren {
+    0% {
+        stroke: #1A3C5E;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #6699CC;
+    }
+
+    60% {
+        transform: translateX(30px);
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        transform: translateX(30px);
+        stroke: #9ae2ff;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.jian.about_me {
+    position: absolute;
+    top: 0;
+    left: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_jian 1.7s ease-in-out forwards
+}
+
+@keyframes path_jian {
+    0% {
+        stroke: #1A3C5E;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #6699CC;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(-30px);
+    }
+
+    100% {
+        transform: translateX(-30px);
+        stroke: #9ae2ff;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.jie.about_me {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_jie 1.7s ease-in-out forwards
+}
+
+@keyframes path_jie {
+    0% {
+        stroke: #1A3C5E;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #6699CC;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(30px);
+    }
+
+    100% {
+        transform: translateX(30px);
+        stroke: #9ae2ff;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+/* B站主页 Bilibili */
+svg.bili {
+    fill: #faa6be;
+    stroke: #faa6be;
+}
+
+svg.bi1.bili {
+    position: absolute;
+    top: 0;
+    left: 0;
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_bi1 1.7s ease-in-out forwards
+}
+
+@keyframes path_bi1 {
+    0% {
+        stroke: #d81049;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #e1537b;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(-30px);
+    }
+
+    100% {
+        transform: translateX(-30px);
+        stroke: #faa6be;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.li1.bili {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_li1 1.7s ease-in-out forwards
+}
+
+@keyframes path_li1 {
+    0% {
+        stroke: #d81049;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #e1537b;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(30px);
+    }
+
+    100% {
+        transform: translateX(30px);
+        stroke: #faa6be;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.bi2.bili {
+    position: absolute;
+    top: 0;
+    left: 0;
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_bi2 1.7s ease-in-out forwards
+}
+
+@keyframes path_bi2 {
+    0% {
+        stroke: #d81049;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #e1537b;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(-30px);
+    }
+
+    100% {
+        transform: translateX(-30px);
+        stroke: #faa6be;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.li2.bili {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_li2 1.7s ease-in-out forwards
+}
+
+@keyframes path_li2 {
+    0% {
+        stroke: #d81049;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #e1537b;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(30px);
+    }
+
+    100% {
+        transform: translateX(30px);
+        stroke: #faa6be;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+/* 酷安主页 Coolapk */
+svg.kuan {
+    fill: #CDFBC5;
+    stroke: #CDFBC5;
+}
+
+svg.ku.kuan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    stroke-width: 1;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_ku 1.7s ease-in-out forwards
+}
+
+@keyframes path_ku {
+    0% {
+        stroke: #27c50b;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #75e761;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(-30px);
+    }
+
+    100% {
+        transform: translateX(-30px);
+        stroke: #CDFBC5;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.an.kuan {
+    position: absolute;
+    stroke-width: 1.5;
+    bottom: 0;
+    right: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_an 1.7s ease-in-out forwards
+}
+
+@keyframes path_an {
+    0% {
+        stroke: #27c50b;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #75e761;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(30px);
+    }
+
+    100% {
+        transform: translateX(30px);
+        stroke: #CDFBC5;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.zhu.kuan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_zhu 1.7s ease-in-out forwards
+}
+
+@keyframes path_zhu {
+    0% {
+        stroke: #27c50b;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #75e761;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(-30px);
+    }
+
+    100% {
+        transform: translateX(-30px);
+        stroke: #CDFBC5;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+svg.ye.kuan {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: path_ye 1.7s ease-in-out forwards
+}
+
+@keyframes path_ye {
+    0% {
+        stroke: #27c50b;
+        stroke-dashoffset: 1000;
+        fill-opacity: 0;
+    }
+
+    30% {
+        stroke: #75e761;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        transform: translateX(30px);
+    }
+
+    100% {
+        transform: translateX(30px);
+        stroke: #CDFBC5;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}

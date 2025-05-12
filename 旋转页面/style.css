@@ -1,0 +1,189 @@
+/* 滚动提示 Rolling prompt */
+nav {
+    position: absolute;
+    margin: 0 50%;
+    transform: translateX(-50%) translateY(150px);
+    border-radius: 20px;
+    width: 520px;
+    background-color: #cec0ff9f;
+    font-size: 22px;
+    text-align: center;
+    color: #3c224e;
+    transition: all .2s;
+    z-index: 100;
+}
+
+.clear {
+    background-color: transparent !important ;
+    color: transparent !important;
+}
+
+/* 两个虚线动画 Two line animations */
+svg[class^="line"] {
+    position: absolute;
+    height: 40px;
+    width: 100vw;
+    stroke-width: 100px;
+    stroke: #ff7341;
+    stroke-dasharray: 90;
+    z-index: 100;
+    animation: left_rt 1.5s linear infinite;
+}
+
+svg.line1 {
+    top: 40px;
+}
+
+svg.line2 {
+    bottom: 40px;
+}
+
+@keyframes left_rt {
+    0% {
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        stroke-dashoffset: 180;
+    }
+}
+
+/* 虚拟body Virtual body */
+.bodys {
+    perspective: 1000px;
+    min-height: 100vh;
+    min-width: 100vw;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(45deg, #32028be0, #5907ddce, #8d46ffce);
+}
+
+/* 旋转柱 Rotating pillar */
+header {
+    margin: 0 0 100px;
+    transform-style: preserve-3d;
+    width: 230px;
+    height: 400px;
+    transition: all .7s ease-in-out;
+}
+
+/* 旋转块 Rotating block */
+header > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    backface-visibility: visible;
+    z-index: 100;
+    transition: transform .4s ease-in-out, border .1s;
+}
+
+div.bilibili {
+    background: linear-gradient(135deg, #FFE4E1, #FFC0CB, #FF69B4);
+    border: 3px solid #a0a0a034;
+    box-shadow: 0 0 20px 5px #FFB6C198;
+    transform: rotateY(120deg) translateZ(250px);
+}
+
+div.massage {
+    background: linear-gradient(135deg, #E0FFFF, #87CEFA, #00BFFF, #4169E1);
+    border: 3px solid #a0a0a034;
+    box-shadow: 0 0 20px 5px #87cefa98;
+    transform: rotateY(0deg) translateZ(250px);
+}
+
+div.kuan {
+    background: linear-gradient(135deg, #F0FFF0, #98FB98, #00FF00, #00bb00);
+    border: 3px solid #a0a0a034;
+    box-shadow: 0 0 20px 5px #90EE9098;
+    transform: rotateY(-120deg) translateZ(250px);
+}
+
+/* 按钮 Button */
+footer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    bottom: 15vh;
+    height: 140px;
+    width: 850px;
+    margin: 0 50%;
+    transform: translateX(-50%);
+}
+
+div.bt {
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+    width: 240px;
+    height: 95px;
+    background-color: #4169E1;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+button.bt_border {
+    border: 5px solid #ffffff !important;
+    box-shadow: 0 0 5px 1px #f8f8f8;
+}
+
+button.bt_massage {
+    background-color: #00BFFF;
+    border: 5px solid #104ffa60;
+}
+
+button.bt_kuan {
+    background-color: #00FF00;
+    border: 5px solid #1d4035e5;
+}
+
+button.bt_bilibili {
+    background-color: #FF69B4;
+    border: 5px solid #e48aff96;
+}
+
+div.tag {
+    display: flex;
+    justify-content: space-around;
+}
+
+div[class^="div_"] {
+    color: #000;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    height: 27px;
+    width: 90px;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 27px;
+    cursor: default;
+    transition: all .2s;
+}
+
+div[class^="div_"] > div[class^="triangle"] {
+    margin: 0 50%;
+    transform: translateX(-50%);
+    content: 0;
+    width: 20px;
+    height: 13px;
+    border-top: 13px solid #f9f9f9;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    cursor: default;
+    transition: all .3s;
+}
+
+.disappear {
+    color: transparent !important;
+    background-color: transparent !important;
+    border-top: transparent !important;
+}
