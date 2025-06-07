@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跟踪朝向卡片特效|Tracking Orientation Effect</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            max-width: 100vw;
+            max-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .card {
+            height: 300px;
+            width: 250px;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            transform-style: preserve-3d;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.1s ease;
+            cursor: pointer;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 70%); /* 圆形扩散特效 Circular Spread Effect */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            backface-visibility: hidden;
+        }
+
+        .card-icon {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-content">
+            <div class="card-icon">😎</div>
+            <h2 class="card-title">3D卡片朝向追踪</h2>
+        </div>
+    </div>
+    <script>
+        const card = document.querySelector('.card')
+
+        card.addEventListener('mousemove', (e) => {
+            // 获取卡片的坐标(以及其他信息)
+            // Get the card's coordinates (and other information)
+            const cardRect = card.getBoundingClientRect()
+
+            // 计算指针在卡片里的位置(设长宽分别为单位1)
+            // Calculate the cursor's position within the card (with length and width set to unit 1)
+            const x = (e.clientX - cardRect.left) / cardRect.width
+            const y = (e.clientY - cardRect.top) / cardRect.height
+
+            // 计算旋转角度
+            // Calculate the rotation angle
+            const rotateX = (0.5 - y) * 30
+            const rotateY = (x - 0.5) * 30
+            
+            // 设置效果
+            // Apply the effect
+            card.style.transition = `transform 0.1s ease`
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`
+        })
+
+        card.addEventListener('mouseleave', (e) => {
+            // 指针离开恢复原型
+            // Restore to original state when cursor leaves
+            card.style.transition = `transform 0.5s ease`
+            card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`
+        })
+    </script>
+</body>
+</html>
