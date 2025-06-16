@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指针排斥文字特效|Pointer-repellent text effect</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-width: 100vw;
+            min-height: 100vh;
+            max-width: 100vw;
+            max-height: 100vh;
+            background: linear-gradient(135deg, #4a6cf71a 0%, #6b46c11d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: large;
+        }
+
+        div {
+            padding: 20px;
+            background: transparent;
+            width: 480px;
+            height: 275px;
+            border: 1px solid #61616100;
+            border-radius: 13px;
+            color: #acacaca4;
+            transition: all .1s;
+            overflow: hidden;
+        }
+
+        div:hover {
+            background: linear-gradient(135deg, #4a6cf71a 0%, #6b46c11d 100%);
+            box-shadow: 0 0 10px 3px inset #1111115d;
+            border: 1px solid #61616149;
+            color: #575757;
+            transform: translateY(1px);
+        }
+
+        .char {
+            display: inline-block;
+            transition: transform .15s ease-out;
+            position: relative;
+            z-index: 2;
+            cursor: default;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div>非常感谢观看我的视频，喜欢的话给个三连和关注，以后会更新更多的特效与教程！代码完全开源，在评论区或简介即可查看Github仓库代码。如果有想看的特效，可以分享给我，研究透彻后也可以提供源代码和教程。后面就是以下凑字数的内容了，啦啦啦，我是快乐的小当家，天天活力四射！什么困难都不能抵挡住我的热情！屏幕前的你也要加油呀！(*°▽°*)祝你天天开心、身体健康、财源滚滚！不知道要写点什么了，总之就是要把段落字数凑够才好，这是老板的规定T^T。</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 获取文字|Get text
+            const textContainer = document.querySelector('div');
+            const text = textContainer.textContent;
+            textContainer.textContent = ''
+
+            // 拆分文本|Split text
+            const chars = text.split('');
+            const charElements = [];
+
+            // 处理每个文字|Process each character
+            chars.forEach((char) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                // 这里的单引号里的空格一定不要省去(无字符和空格不一样)|The spaces inside single quotes here must not be omitted (no character is different from a space)
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                textContainer.appendChild(span);
+                charElements.push(span);
+            });
+
+            // 排斥参数|Repellent parameters
+            const radius = 90; // 排斥半径|Repellent radius
+            const strength = 25; // 排斥力度|Repellent strength
+
+            // 鼠标移动事件|Mouse move event
+            textContainer.addEventListener('mousemove', (e) => {
+                // 获取指针位置(相对于盒子)|Get pointer position (relative to the box)
+                const rect = textContainer.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+
+                // 计算和处理字符|Calculate and process characters
+                charElements.forEach((char) => {
+                    // 获取字符的中心位置(相对于盒子)|Get character's center position (relative to the box)
+                    const charRect = char.getBoundingClientRect();
+                    const charX = charRect.left - rect.left + charRect.width / 2;
+                    const charY = charRect.top - rect.top + charRect.height / 2;
+
+                    // 计算字符中心与指针的距离|Calculate distance between character center and pointer
+                    const dx = charX - mouseX;
+                    const dy = charY - mouseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // 排斥效果|Repellent effect
+                    if (distance < radius) {
+                        // 计算排斥距离|Calculate repellent distance
+                        const force = (1 - distance / radius) * strength;
+                        // 计算角度(弧度制)|Calculate angle (in radians)
+                        const angle = Math.atan2(dy, dx);
+
+                        // 计算字符的X轴和Y轴的位移|Calculate character's X and Y axis displacement
+                        const translateX = Math.cos(angle) * force;
+                        const translateY = Math.sin(angle) * force;
+
+                        char.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                    } else {
+                        // 不在半径内则不动|No movement if outside the radius
+                        char.style.transform = `translate(0, 0)`;
+                    };
+                });
+            });
+
+            // 鼠标离开全部恢复原形|Restore original state when mouse leaves
+            textContainer.addEventListener('mouseleave', () => {
+                charElements.forEach((char) => {
+                    char.style.transform = `translate(0, 0)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
