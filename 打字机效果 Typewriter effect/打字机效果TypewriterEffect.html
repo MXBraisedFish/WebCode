@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打字机效果|Typewriter effect</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #f4f4f9;
+        }
+
+        .text-container {
+            display: flex;
+            justify-content: center;
+            height: 65px;
+            width: 400px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px #0000001a;
+            margin-bottom: 20px;
+            font-size: 24px;
+            overflow: hidden;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10ox;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .cursor {
+            display: inline-block;
+            margin: 5px 3px;
+            height: 25px;
+            width: 2px;
+            background-color: #949494;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-container">Hello World!</div>
+    <div class="button-container">
+        <button class="start">开始|Strat</button>
+        <button class="delete">删除|Delete</button>
+    </div>
+    <script>
+        // 创建光标 | Create cursor
+        const cursor = `<div class="cursor"></div>`;
+        
+        // 是否在动画 | Is animating?
+        let animation = false;
+
+        // 获取打字框 | Get typing box
+        const div = document.querySelector('.text-container');
+        const char = [...div.textContent];
+        div.innerHTML = cursor;
+
+        // 开始动画 | Start animation
+        document.querySelector('.start').addEventListener('click', () => {
+            // 正在动画则终止 | Terminate if animating
+            if (animation) {
+                return;
+            };
+
+            // 设置为正在动画 | Set as animating
+            animation = true;
+
+            // 索引记录 | Index record
+            let i = 0;
+            const timer = setInterval(() => {
+                div.innerHTML = div.textContent.slice(0, i) + char[i] + cursor;
+                i++;
+
+                // 动画结束 | Animation complete
+                if (i >= char.length) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        animation = false;
+                    }, 100);
+                };
+            }, 200);
+        });
+
+        // 删除动画 | Remove animation
+        document.querySelector('.delete').addEventListener('click', () => {
+            if (animation) {
+                return;
+            };
+            animation = true;
+            let i = char.length - 1;
+            const timer = setInterval(() => {
+                div.innerHTML = div.textContent.slice(0, i) + cursor;
+                i--;
+                if (i < 0) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        animation = false;
+                    }, 100);
+                };
+            }, 40);
+        });
+    </script>
+</body>
+</html>
