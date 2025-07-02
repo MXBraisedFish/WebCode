@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星空背景 | Starry Background</title>
+    <!-- 作者 | Author -->
+    <!-- 闷香红烧鱼 | MXBraisedFish -->
+    <!-- 播客：Bilibili | Podcast：Bilibilli -->
+    <!-- 链接 | link {https://space.bilibili.com/609170202} -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000428, #004e92);
+            height: 100vh;
+            width: 100vw;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            z-index: -1;
+        }
+
+        /* 临时提示 | Temporary Hint*/
+        p {
+            color: antiquewhite;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="starCanvas"></canvas>
+    <!-- 临时提示 | Temporary Hint-->
+    <p>如果你认为这个有注释的代码看起来很复杂，可以查看另一个无注释代码，更清晰直观</p>
+    <p>If you find the commented code too complex, you can check the other version without comments — it's clearer and more intuitive.</p>
+    <script>
+        // 获取画布 | Get Canvas
+        const canvas = document.querySelector('#starCanvas');
+        // 获得画布的2d工具箱 | Get Canvas
+        const ctx = canvas.getContext('2d');
+
+        // 设置画布大小 | Set Canvas Size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 存储星星 | Store Stars
+        let stars = [];
+
+        // 创建星星类 | Create Star Class
+        class Star {
+            // 初始化构造函数 | Initialize Constructor
+            constructor() {
+                this.x = Math.random() * canvas.width; // 在画布中的x轴位置 | X Position on Canvas
+                this.y = Math.random() * canvas.height; // 在画布中的y轴位置 | Y Position on Canvas
+                this.size = Math.random(); // 星星半径 | Star Radius
+                this.brightness = 0.1 + Math.random() * 0.9; // 初始亮度 | Initial Brightness
+                this.twinkleSpeed = 0.005 + Math.random() * 0.01; // 闪烁速度 | Twinkle Speed
+                this.twinkleDirection = Math.random() > 0.5 ? 1 : -1; // 闪烁方向(1为变亮，-1变暗) | Twinkle Direction (1 for Brightening, -1 for Dimming)
+                this.hue = 220 - this.size * 40; // 根据大小设定颜色 | Set Color Based on Size
+                this.saturation = 70 + Math.random() * 30; // 70-100%饱和度 | 70–100% Saturation
+                this.lightness = 50 + Math.random() * 30; // 50-80%亮度 | 50–80% Lightness
+            };
+
+            update() {
+                // 下一次刷新的亮度 | Brightness on Next Refresh
+                this.brightness += this.twinkleSpeed * this.twinkleDirection;
+
+                if (this.brightness <= 0.1) { // 当亮度小于0.1时，则让亮度设置为0.1，并让闪烁方向变为1 | If Brightness < 0.1, Set to 0.1 and Change Twinkle Direction to 1
+                    this.brightness = 0.1;
+                    this.twinkleDirection = 1;
+                } else if (this.brightness >= 1) { // 当亮度大于1时，则让亮度设置为1，并让闪烁方向变为-1 | If Brightness > 1, Set to 1 and Change Twinkle Direction to -1
+                    this.brightness = 1;
+                    this.twinkleDirection = -1;
+                };
+            };
+
+            draw() {
+                ctx.beginPath(); // 开始绘制(创建新的绘画路径) | Begin Drawing (Create New Path)
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); // 绘制一个圆形路径，从(x,y)开始绘制[这个不是圆心坐标]，半径为size，且为完整圆(这一步相当于规划笔迹) | Draw Circular Path Starting from (x, y) [Not the Center], Radius = Size, Full Circle (Like Planning the Stroke)
+                ctx.fillStyle = `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.brightness})`; // 设置颜色填充(决定用什么颜料) | Set Fill Color (Decide Which Paint to Use)
+                ctx.fill(); // 根据上方的路径和填充完成圆形的绘制(也就是真正的画到画布上) | Complete Circle Drawing Based on Path and Fill (Actually Draw on Canvas)
+            };
+        };
+
+        // 初始化 | Initialize
+        function initStars() {
+            stars = [];
+            // 根据画布大小大小计算要多少星星(我们在上面设置了画布大小就是视口大小) | Calculate Number of Stars Based on Canvas Size (We Set Canvas to Viewport Size)
+            const starCount = Math.floor((canvas.width * canvas.height) / 1000);
+
+            // 实例化星星 | Instantiate Stars
+            for (let i = 0; i < starCount; i++) {
+                stars.push(new Star());
+            };
+        };
+
+        // 动画循环 | Animation Loop
+        function animate() {
+            // 用半透明黑色来覆盖之前的星星，做到更进一步的视觉过渡效果 | Overlay Previous Stars with Semi-Transparent Black for Smoother Visual Transition
+            // 同时充当一个刷新画布的作用 | Also Acts as a Canvas Refresh
+            ctx.fillStyle = `rgba(5, 10, 30, 0.1)` // 设置颜色填充 | Set Fill Color
+            ctx.fillRect(0, 0, canvas.width, canvas.height); // 绘制并刷新 | Draw and Refresh
+
+            // 如果你觉的不需要上面的颜色覆盖来提高动画感，可以用清除画布来刷新
+            // If You Don't Need the Above Color Overlay for Animation Smoothness, Use Canvas Clearing Instead
+            // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            /* -----------------------
+            注：上方的无论哪种方法都可以，但是一定要刷新画布，且下面更新星星的下一帧动画必须写在刷新画布之后(不刷新上一帧的画面不会做任何处理，保留原样)
+            Note: Either Method Above Works, But Canvas Must Be Refreshed First; Updating the Next Frame of Stars Must Happen After Refresh (Otherwise the Previous Frame Will Remain Untouched)
+            ----------------------- */
+
+            // 绘制星星的下一帧动画 | Draw Next Animation Frame of Stars
+            stars.forEach((star) => {
+                star.update();
+                star.draw();
+            });
+
+            // 动画循环函数，通过回调来循环，且异步，不会导致内存溢出(不是递归)，也不会影响后面的代码运行
+            // Animation Loop Function Using Callback; It's Asynchronous, Won’t Cause Memory Overflow (Not Recursive), and Won’t Block Further Code Execution
+            requestAnimationFrame(animate);
+        };
+
+        // 窗口发生改变则重新绘制内容 | Redraw Content When Window is Resized
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        });
+
+        // 初始化并开始动画 | Initialize and Start Animation
+        initStars();
+        animate();
+    </script>
+</body>
+
+</html>
