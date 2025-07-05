@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流星背景 | Meteor Background</title>
+    <!-- 作者 | Author -->
+    <!-- 闷香红烧鱼 | MXBraisedFish -->
+    <!-- 播客：Bilibili | Podcast：Bilibilli -->
+    <!-- 链接 | link {https://space.bilibili.com/609170202} -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, 
+                #0a0a1a 0%, 
+                #1a1a3a 50%, 
+                #2d2d5a 100%);
+            height: 100vh;
+            width: 100vw;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="meteorCanvas"></canvas>
+
+    <script>
+        const canvas = document.querySelector('#meteorCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 创建流星类 | Create Meteor Class
+        class Meteor {
+            // 初始构造 | Initial Constructor
+            constructor() {
+                this.reset();
+                this.speed = 5 + Math.random() * 2; // 随机速度 | Random Speed
+            };
+
+            // 重绘 | Redraw
+            reset() {
+                this.x = Math.random() * canvas.width * 1.5; // 流星初始水平位置 | Initial Horizontal Position of Meteor
+                this.y = -20; // 流星初始垂直位置，固定在屏幕外 | Initial Vertical Position of Meteor, Fixed Outside the Screen
+                this.length = 50 + Math.random() * 100; // 尾巴长度 | Tail Length
+                this.size = 1 + Math.random() * 3; // 流星大小 | Meteor Size
+                this.angle = Math.PI / 4 + Math.random() * Math.PI / 6; // 随机角度(30-60度) | Random Angle (30–60 Degrees)
+                this.alpha = 1; // 初始透明度 | Initial Opacity
+            };
+
+            // 更新下一帧 | Update Next Frame
+            update() {
+                // 整体为向右下运动 | Overall Movement Toward Bottom Right
+                this.x += Math.cos(this.angle) * this.speed; // 下一帧的水平位置 | Horizontal Position in Next Frame
+                this.y += Math.sin(this.angle) * this.speed; // 下一帧的垂直位置 | Vertical Position in Next Frame
+                this.alpha -= 0.001; // 透明度变化(渐远的感觉) | Opacity Change (Fading Effect)
+
+                if (this.y > canvas.height || this.x < 0 || this.alpha <= 0) {
+                    this.reset(); // 若超出屏幕或透明度低到不可见则重绘该流星从头开始 | Redraw Meteor from Scratch if It Goes Off-Screen or Becomes Invisible
+                };
+            };
+
+            draw() {
+                const endX = this.x - Math.cos(this.angle) * this.length; // 尾巴水平终点 | Tail Horizontal Endpoint
+                const endY = this.y - Math.sin(this.angle) * this.length; // 尾巴垂直终点 | Tail Vertical Endpoint
+
+                ctx.beginPath(); // 开始创建路径，画尾巴 | Start Path to Draw Tail
+                ctx.moveTo(this.x, this.y); // 设置直线起始点(流星头位置) | Set Line Starting Point (Meteor Head Position)
+                ctx.lineTo(endX, endY); // 设置直线终点 | Set Line Endpoint
+                const gradient = ctx.createLinearGradient(this.x, this.y, endX, endY); // 创建一个从流星头到流星尾终点的渐变对象 | Create a Gradient from Meteor Head to Tail Endpoint
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`); // 设置起始颜色(0位置) | Set Start Color (Position 0)
+                gradient.addColorStop(0.5, `rgba(255, 255, 255, ${this.alpha * 0.7})`); // 设置中间的颜色(0.5位置) | Set Middle Color (Position 0.5)
+                gradient.addColorStop(1, `rgba(255, 255, 255, 0)`); // 设置终点的颜色(1位置) | Set End Color (Position 1)
+
+                ctx.strokeStyle = gradient; // 应用渐变 | Apply Gradient
+                ctx.lineWidth = this.size; // 将尾巴宽度设置为流行头的大小 | Set Tail Width to Meteor Head Size
+                ctx.lineCap = 'round'; // 设置直线两端为圆头 | Set Line Caps to Round
+                ctx.stroke(); // 绘制 | Draw
+            };
+        };
+
+        // 创建流星群 | Create Meteor Shower
+        const meteors = [];
+        const meteorCount = Math.floor(Math.random() * 3 + 3) // 随机数量 | Random Quantity
+        for (let i = 0; i < meteorCount; i++) {
+            meteors.push(new Meteor()); // 实例化 | Instantiate
+        }
+
+        // 动画循环 | Animation Loop
+        function animate() {
+            // 重绘和和刷新画布 |  Redraw and Refresh Canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 加载下一帧动画 | Load Next Animation Frame
+            meteors.forEach((meteor) => {
+                meteor.update();
+                meteor.draw();
+            });
+
+            // 动画循环器 | Animation Loop
+            requestAnimationFrame(animate);
+        };
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        })
+
+        // 启动动画 | Start Animation
+        animate();
+    </script>
+</body>
+</html>
