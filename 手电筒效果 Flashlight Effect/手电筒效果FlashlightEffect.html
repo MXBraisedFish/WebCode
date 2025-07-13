@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手电筒效果 | Flashlight Effect</title>
+    <!-- 作者 | Author -->
+    <!-- 闷香红烧鱼 | MXBraisedFish -->
+    <!-- 播客：Bilibili | Podcast：Bilibilli -->
+    <!-- 链接 | link {https://space.bilibili.com/609170202} -->
+     <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        #textContainer {
+            position: absolute;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .text {
+            position: absolute;
+            color: #000;
+            cursor: default;
+            user-select: none;
+            pointer-events: none;
+            transform: all .2s;
+            font-size: 20px;
+        }
+
+        #light {
+            height: 130px;
+            width: 130px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            border: #0d0f2265 solid 1px;
+            transition: background-color .2s, box-shadow .2s;
+        }
+
+        .on {
+            background-color: #fff;
+            box-shadow: 0 0 5px 5px azure;
+            animation: blink 3s infinite alternate;
+        }
+
+        @keyframes blink {
+            0% {
+                box-shadow: 0 0 40px 20px azure;
+            }
+
+            100% {
+                box-shadow: 0 0 50px 25px azure;
+            }
+        }
+
+        .off {
+            background-color: #000;
+        }
+     </style>
+</head>
+<body>
+    <div id="textContainer"></div>
+    <div id="light"></div>
+
+    <script>
+        // 必要的初始化 | Necessary Initialization
+        const textContainer = document.querySelector("#textContainer");
+        const text = ["q(≧▽≦q)", "o(*￣▽￣*)ブ", "（*＾-＾*）", "o(*￣▽￣*)o", "(≧∇≦)ﾉ", "三连+关注"];
+        const light = document.querySelector('#light');
+        let mouseX, mouseY;
+        let mouseMoved = false;
+        const allChar = [];
+
+        // 内容的随机分布 | Random Distribution of Content
+        function createRandomChars() {
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+            text.forEach((text) => {
+                const char = document.createElement('span');
+                char.textContent = text;
+                char.className = `text`;
+                const charTop = (Math.random() * 0.8 + 0.1) * height;
+                const charLeft = (Math.random() * 0.8 + 0.1) * width;
+                char.style.top = `${charTop}px`;
+                char.style.left = `${charLeft}px`;
+                const rotation = (Math.random() * 60) - 30;
+                char.style.transform = `rotate(${rotation}deg)`;
+                textContainer.appendChild(char);
+                allChar.push(char);
+            });
+        };
+
+
+        // 更新文本透明度 | Update Text Opacity
+        // 离灯光越近，透明度越高 | Higher Opacity Closer to the Light
+        function updateChar() {
+            if (mouseMoved) {
+                allChar.forEach((char) => {
+                    const rect = char.getBoundingClientRect();
+                    const charX = rect.left + rect.width / 2;
+                    const charY = rect.top + rect.height / 2;
+                    const distance = Math.sqrt(Math.pow(charX - mouseX, 2) + Math.pow(charY - mouseY, 2));
+                    const maxDistance = 150;
+                    const opacity = Math.max(0, 1 - (distance / maxDistance));
+                    char.style.opacity = opacity;
+                });
+            };
+
+            requestAnimationFrame(updateChar);
+        };
+
+        // 当窗口发生改变时，重新调整文本的分布 | Re-adjust Text Distribution on Window Resize
+        function handleResize() {
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+            allChar.forEach((char) => {
+                const charTop = (Math.random() * 0.8 + 0.1) * height;
+                const charLeft = (Math.random() * 0.8 + 0.1) * width;
+                const rotation = (Math.random() * 60) - 30;
+                char.style.transform = `rotate(${rotation}deg)`;
+            });
+        };
+
+        // 当鼠标移动时更新定位和灯光样式 | Update Positioning and Light Style on Mouse Move
+        document.addEventListener('mousemove', (e) => {
+            mouseMoved = true;
+            light.classList.add('on');
+            light.classList.remove('off');
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            light.style.top = `${mouseY}px`;
+            light.style.left = `${mouseX}px`;
+        });
+
+        // 当鼠标离开时灯光消失 | Light Disappears on Mouse Leave
+        document.addEventListener('mouseleave', (e) => {
+            mouseMoved = false;
+            light.classList.add('off');
+            light.classList.remove('on');
+        });
+
+        // 窗口大小变化事件监听 | Window Resize Event Listener
+        window.addEventListener('resize', handleResize);
+
+        // 首次文本分布 | Initial Text Distribution
+        createRandomChars();
+        // 启动更新文本透明度动画 | Start Update Text Opacity Animation
+        updateChar();
+    </script>
+</body>
+</html>
