@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时钟效果 | Clock effect</title>
+    <!-- 作者 | Author -->
+    <!-- 闷香红烧鱼 | MXBraisedFish -->
+    <!-- 播客：Bilibili | Podcast：Bilibilli -->
+    <!-- 链接 | link {https://space.bilibili.com/609170202} -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f5f5f5;
+            font-family: Arial;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .clockContainer {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+        }
+
+        .clockFace {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: white;
+            border: 10px solid #e0e0e0;
+            box-shadow: 0 0 10px 10px #3333337a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centerPoint {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        /* 指针统一样式 | Pointer uniform style */
+        .hourHand,
+        .minuteHand,
+        .secondHand {
+            position: absolute;
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .hourHand {
+            width: 6px;
+            height: 80px;
+            background-color: #d10000;
+            border-radius: 4px;
+            z-index: 3;
+        }
+
+        .minuteHand {
+            width: 4px;
+            height: 110px;
+            background-color: #333;
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .secondHand {
+            width: 2px;
+            height: 120px;
+            background-color: #999;
+            z-index: 1;
+        }
+
+        .hourNumber {
+            position: absolute;
+            color: #333;
+            font-size: 16px;
+            font-weight: 300;
+            transform-origin: center;
+        }
+
+        /* 数字刻度 | Number scale */
+        .hourMarker {
+            position: absolute;
+            background: #e0e0e0;
+            width: 2px;
+            height: 8px;
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 小刻度 | Small scale */
+        .digitalTime {
+            color: #333;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="clockContainer">
+            <div class="clockFace">
+                <div class="centerPoint"></div>
+                <div class="hourHand"></div>
+                <div class="minuteHand"></div>
+                <div class="secondHand"></div>
+            </div>
+        </div>
+        <div class="digitalTime"></div>
+    </div>
+
+    <script>
+        // 添加一个加载事件监听 | Add a load event listener
+        document.addEventListener('DOMContentLoaded', () => {
+            const clockFace = document.querySelector('.clockFace');
+            const hourHand = document.querySelector('.hourHand');
+            const minuteHand = document.querySelector('.minuteHand');
+            const secondHand = document.querySelector('.secondHand');
+            const digitalTime = document.querySelector('.digitalTime');
+
+            // 创建数字刻度 | Create number scale
+            for (let i = 1; i <= 12; i++) {
+                const hourNumber = document.createElement('div');
+                hourNumber.className = 'hourNumber';
+                hourNumber.textContent = i;
+
+                const angle = (i * 30) * (Math.PI / 180);
+                const radius = 120;
+                const x = Math.sin(angle) * radius;
+                const y = -Math.cos(angle) * radius;
+
+                // 数字位置微调 | Number position fine-tuning
+                if (i <= 9) {
+                    hourNumber.style.left = `calc(49% + ${x}px)`;
+                    hourNumber.style.top = `calc(47.5% + ${y}px)`;
+                } else {
+                    hourNumber.style.left = `calc(46.5% + ${x}px)`;
+                    hourNumber.style.top = `calc(47.5% + ${y}px)`;
+                };
+
+                clockFace.appendChild(hourNumber);
+            };
+
+            // 创建小刻度 | Create small scale
+            for (let i = 0; i < 60; i++) {
+                if (i % 5 != 0) {
+                    const marker = document.createElement('div');
+                    marker.className = `hourMarker`;
+
+                    const angle = (i * 6) * (Math.PI / 180);
+                    const radius = 130;
+                    const x = Math.sin(angle) * radius;
+                    const y = -Math.cos(angle) * radius;
+
+                    marker.style.left = `calc(50% + ${x}px)`;
+                    marker.style.top = `calc(47.5% + ${y}px)`;
+                    marker.style.transform = `translateX(-50%) rotate(${i * 6}deg)`;
+
+                    clockFace.appendChild(marker);
+                };
+            };
+
+            // 更新时钟 | Update clock
+            function updateClock() {
+                const now = new Date();
+                const day = now.getHours() >= 12 ? 'PM' : 'AM';
+                const hours = now.getHours() % 12 || 12;
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                const milliseconds = now.getMilliseconds();
+
+                const hourDeg = (hours * 30) + (minutes * 0.5);
+                const minuteDeg = (minutes * 6) + (seconds * 0.1);
+                const secondDeg = (seconds * 6) + (milliseconds * 0.006);
+
+                hourHand.style.transform = `translate(-50%) rotate(${hourDeg}deg)`;
+                minuteHand.style.transform = `translate(-50%) rotate(${minuteDeg}deg)`;
+                secondHand.style.transform = `translate(-50%) rotate(${secondDeg}deg)`;
+
+                const formattedHours = String(hours).padStart(2, '0');
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(seconds).padStart(2, '0');
+
+                digitalTime.textContent = `${day} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            };
+
+            // 首次更新 | First update
+            updateClock();
+
+            // 每50ms更新一次 | Update every 50ms
+            setInterval(updateClock, 50);
+        })
+    </script>
+</body>
+
+</html>
